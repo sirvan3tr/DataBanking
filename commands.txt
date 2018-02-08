@@ -1,0 +1,61 @@
+Storage.deployed().then(instance => instance.get.call()).then(result => storeData = result)
+
+
+sudo npm run dev
+
+
+uic.then(function(instance){app = instance})
+
+t = userInfoContract.deployed().then(function(instance){app = instance});
+v = t.storeUserInfo("James Bond 2", "fakedob");
+console.log(v);
+
+
+app.storeUserInfo("James Bond 2", "fakedob").then(function(result){ console.log(v2 = result);})
+
+
+add = "0x4e71920b7330515faf5ea0c690f1ad06a85fb60c";
+web3.eth.filter({ address: add, fromBlock:1, toBlock:'latest'}).get(function (err, result) {v = result})
+
+
+sub = web3.eth.subscribe('logs', { address: add }, function(error, result){log = log })
+
+#########
+SIRVAN contract
+
+Sirvan.deployed().then(function(instance){app = instance});
+
+app.storeSirvan('James Bond', 'DOB', 'add1')
+
+app.getName()
+
+
+
+#########
+https://medium.com/metamask/calling-a-smart-contract-with-a-button-d278b1e76705
+#########
+
+var abi = [ { constant: true,
+       inputs: [],
+       name: 'getName',
+       outputs: [Array],
+       payable: false,
+       stateMutability: 'view',
+       type: 'function' },
+     { inputs: [Array],
+       payable: false,
+       stateMutability: 'nonpayable',
+       type: 'function',
+       constant: false,
+       name: 'storeSirvan',
+       outputs: [] },
+     { inputs: [Array],
+       payable: false,
+       stateMutability: 'nonpayable',
+       type: 'constructor' } ];
+
+
+var myContract = new web3.eth.Contract(abi, '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f', {
+    from: '0x1234567890123456789012345678901234567891', // default from address
+    gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+});
