@@ -32,8 +32,8 @@ App = {
       App.web3Provider = web3.currentProvider;
     } else {
       // If no injected web3 instance is detected, fallback to the TestRPC
-      //App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:9545');
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
+      //App.web3Provider = new Web3.providers.HttpProvider('http://localhost:9545');
     }
 
     web3 = new Web3(App.web3Provider);
@@ -72,9 +72,9 @@ App = {
       return adoptionInstance.getAdopters.call();
     }).then(function(adopters) {
 
-      console.log('RETURN ADOPTERS');
-      console.log(adopters);
-      console.log('end of return...')
+      //console.log('RETURN ADOPTERS');
+      //console.log(adopters);
+      //console.log('end of return...')
 
       for (i = 0; i < adopters.length; i++) {
         if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
@@ -102,7 +102,7 @@ App = {
       }
 
       var account = accounts[0];
-      console.log(accounts);
+      //console.log(accounts);
 
       App.contracts.Adoption.deployed().then(function(instance) {
         adoptionInstance = instance;

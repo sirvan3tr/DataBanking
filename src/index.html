@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>ProjectEYE</title>
+    <title>Omnee Data Bank</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -16,9 +16,38 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style>
+    body {
+      /*color: #093443 !important; */
+      color: #117fa9;
+    }
+    </style>
   </head>
   <body>
+    
     <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#" style="padding: 6px 15px;"><img src="images/omnee_logo.png" width="100"/></a>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Disabled</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+        </nav>
+
       <div class="row">
         <div class="col-xs-5 col-sm-5 col-sm-push-2">
           <h1 class="text-center">omnee</h1>
@@ -26,10 +55,9 @@
           <div id="statusMonitor"></div>
           <hr/>
           <br/>
+          Your public key:
+          <div id="usersAccount"></div>
           <div id='loginForm'>
-            Your public key:
-            <div id="usersAccount"></div>
-
             <form>
               <div class="form-group">
                 <label for="exampleInputEmail1">First name</label>
@@ -46,6 +74,10 @@
               <button type="submit" class="btn btn-primary">Submit</button>
             </form>
           </div> <!-- /end loginForm -->
+          
+          <div id="firstname"></div>
+          <div id="registrylinks"></div>
+
         </div>
       </div>
 
@@ -80,7 +112,7 @@
       var myacc = web3.eth.accounts[0];
 
       // Address of the omneePortal contract;
-      var omneePortalAddress = '0xf328c11c4df88d18fcbd30ad38d8b4714f4b33bf';
+      
       idDiv.innerHTML = myacc;
 
       // call omneePortal to check if ID exists
@@ -90,6 +122,39 @@
       // if submit form then call createID() at omneePortal()
 
       var omneePortalABI = [
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "myadd",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "directory",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
       {
         "constant": true,
         "inputs": [],
@@ -105,7 +170,7 @@
         "type": "function"
       },
       {
-        "constant": false,
+        "constant": true,
         "inputs": [],
         "name": "returnID",
         "outputs": [
@@ -119,7 +184,21 @@
           }
         ],
         "payable": false,
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "id",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
         "type": "function"
       },
       {
@@ -154,46 +233,279 @@
         "type": "function"
       },
       {
-        "constant": false,
+        "constant": true,
         "inputs": [],
         "name": "userExists",
         "outputs": [
           {
-            "name": "",
-            "type": "string"
+            "name": "themsg",
+            "type": "uint256"
           }
         ],
         "payable": false,
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
       }
     ];
 
+    var omneeIDABI = [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getName",
+      "outputs": [
+        {
+          "name": "_f_name",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "hello",
+      "outputs": [
+        {
+          "name": "_hello",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "changeInfo",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getInfo",
+      "outputs": [
+        {
+          "name": "name_",
+          "type": "string"
+        },
+        {
+          "name": "lastname_",
+          "type": "string"
+        },
+        {
+          "name": "email_",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "whoIsOwner",
+      "outputs": [
+        {
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newSaying",
+          "type": "string"
+        }
+      ],
+      "name": "saySomethingElse",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_entity_type",
+          "type": "uint256"
+        },
+        {
+          "name": "_f_name",
+          "type": "string"
+        },
+        {
+          "name": "_l_name",
+          "type": "string"
+        },
+        {
+          "name": "_email",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ];
+
+omneeRegistryABI = [
+{
+  "constant": true,
+  "inputs": [],
+  "name": "test",
+  "outputs": [
+    {
+      "name": "",
+      "type": "uint256"
+    }
+  ],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+},
+{
+  "constant": true,
+  "inputs": [
+    {
+      "name": "_address",
+      "type": "address"
+    }
+  ],
+  "name": "getLink",
+  "outputs": [
+    {
+      "name": "",
+      "type": "string"
+    },
+    {
+      "name": "",
+      "type": "address"
+    }
+  ],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+},
+{
+  "constant": false,
+  "inputs": [
+    {
+      "name": "_address",
+      "type": "address"
+    },
+    {
+      "name": "_URL",
+      "type": "string"
+    }
+  ],
+  "name": "createLink",
+  "outputs": [],
+  "payable": false,
+  "stateMutability": "nonpayable",
+  "type": "function"
+},
+{
+  "inputs": [],
+  "payable": false,
+  "stateMutability": "nonpayable",
+  "type": "constructor"
+}
+];
+
+
+
+
+      var omneePortalAddress = '0x345ca3e014aaf5dca488057592ee47305d9b3e10';
       var omneePortal = web3.eth.contract(omneePortalABI);
       var omneePortalInstance = omneePortal.at(omneePortalAddress);
       //console.log(SirvanInstance);
+      omneePortalInstance.id.call({from: myacc}, function(error, result) {
+        console.log("res-- " + result);
+      });
 
+      var omneeRegistryAddress = '0x74e3fc764c2474f25369b9d021b7f92e8441a2dc';
+      var omneeRegistry = web3.eth.contract(omneeRegistryABI);
+      var omneeRegistryInstance = omneeRegistry.at(omneeRegistryAddress);
+      //console.log(omneeRegistryInstance);
 
+      var myaddd = '0x494a7d854f523cca21b0dd2fe29c9b5562af1154';
+      var registrylinks = document.getElementById("registrylinks");
+      omneeRegistryInstance.getLink.call(myaddd, {from: myacc}, function(error, result) {
+        console.log("YOUR LINK Error IS:-- " + error);
+        console.log("YOUR LINK IS:-- " + result);
+        registrylinks.innerHTML = result;
+      });
 
-
-      //omneePortalInstance.createID.call({from: myacc}, function(error, result) {
-        //console.log(result);
-      //});
+      var theID = web3.eth.contract(omneeIDABI);
+      var theadd = '0x158ef9cf5b7fcd2d703bd5570ac063a95cc6540a';
+      var theIDInst = theID.at(theadd);
+      theIDInst.getInfo.call({from: myacc}, function(error, result) {
+        console.log("hello res-- " + result);
+      });
 
       var loginForm = document.getElementById("loginForm");
+      var firstnameDIV = document.getElementById('firstname');
       omneePortalInstance.userExists.call({from: myacc}, function(error, result) {
-        console.log(result);
-        if(result == 'User doesnt exist m8') {
-          console.log('User doesnt exist, so we need a new contract');
-            omneePortalInstance.createID(1, 'Sirvan', 'Almasi', 'email', {from: myacc, gas: 200000}, function(error, result){
-              console.log(result);
+        console.log('userExists results ' + result);
+        if(result == 1) {
+            console.log('User doesnt exist, so we need a new contract');
+            omneePortalInstance.createID.sendTransaction(1, 'Sirvan', 'Almasi', 'email', {from: myacc}, function(error, result){
+              console.log('creating id result: ' + result);
             });
           loginForm.style.display = 'block';
         } else {
           loginForm.style.display = 'none';
+          var omneeID = web3.eth.contract(omneeIDABI);
+          omneePortalInstance.id.call({from: myacc}, function(error, result2) {
+            console.log("res-- " + result2);
+            var omneeIDInstance = omneeID.at(result2);
+            omneeIDInstance.getInfo.call({from: myacc}, function(error, result3) {
+              console.log(result3);
+              firstnameDIV.innerHTML = result3[0];
+            });
+          });
           console.log('user exists');
         }
       });
+      //////
+
       /////////////////
 
       // Sirvan contract address

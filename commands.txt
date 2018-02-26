@@ -29,8 +29,14 @@ app.storeSirvan('James Bond', 'DOB', 'add1')
 
 app.getName()
 
+omneePortal.deployed().then(function(instance){app = instance});
+app.createID(1,'Sirvan','Almasi','email')
 
+omneeRegistry.deployed().then(function(instance){app = instance});
+app.createLink('0x494a7d854f523cca21b0dd2fe29c9b5562af1154', 'google.com')
 
+app.userExists().then(age => age.toNumber())
+app.createID(1,'s','almasi','email');
 #########
 https://medium.com/metamask/calling-a-smart-contract-with-a-button-d278b1e76705
 #########
